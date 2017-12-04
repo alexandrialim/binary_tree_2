@@ -1,9 +1,14 @@
-/*
- * This class defines a binary tree data structure along with utility methods
- * to make it useful.
- */
 public class BinaryTree {
 	
+	/*
+	 * Copy your code for the BinaryTree class from the previous project.
+	 * Then modify the code so that it handles records that are strings
+	 * rather than integers.
+	 *
+	 * Be particularly careful of comparisons and tests for equality.
+	 * Be sure to use the appropriate string methods rather than
+	 * ==, <, >, etc.
+	 */		
 	public Node root;
 	
 	public BinaryTree() {
@@ -22,14 +27,14 @@ public class BinaryTree {
 	 * it are often called "wrapper" methods because they "wrap" the private
 	 * methods that do all of the work in a more convenient interface.
 	 */
-	public void insert(int newRecord) {
+	public void insert(String newRecord) {
 		root = subtreeInsert(root, newRecord);
 	}
 	
-	private Node subtreeInsert(Node topNode, int newRecord) {
+	private Node subtreeInsert(Node topNode, String newRecord) {
 		if (topNode == null) {
 			topNode = new Node(newRecord);
-		} else if (newRecord < topNode.record) {
+		} else if (newRecord.compareTo(topNode.record) <= 0) {
 			topNode.left = subtreeInsert(topNode.left, newRecord);
 		} else {
 			topNode.right = subtreeInsert(topNode.right, newRecord);
@@ -158,10 +163,10 @@ public class BinaryTree {
 			
 		}
 	}
-	public int countMatches(int key){
+	public int countMatches(String key){
 		return subtreeCountMatches(root, key);
 	}
-	private int subtreeCountMatches(Node topNode, int key){
+	private int subtreeCountMatches(Node topNode, String key){
 		int num = 0;
 		if(topNode == null){
 			return 0;
@@ -170,7 +175,7 @@ public class BinaryTree {
 			int i = subtreeCountMatches(topNode.left, key);
 			int j = subtreeCountMatches(topNode.right, key);
 			
-			if(topNode.record == key){
+			if(topNode.record.equals(key)){
 				num++;
 			}
 			{
@@ -179,45 +184,37 @@ public class BinaryTree {
 			
 		}
 	}
-	
-	public int maxRecord(){
+
+	public String maxRecord(){
 		return subtreeMaxRecord(root);
 	}
-	private int subtreeMaxRecord(Node topNode){
-		int max = Integer.MIN_VALUE;
+	private String subtreeMaxRecord(Node topNode){
 		if(topNode == null){
-			return 0;
+			return null;
 		}
 		else{
-			int i = subtreeMaxRecord(topNode.right);
+			String i = topNode.record;
 
-			if(i < topNode.record ){
-				max = topNode.record;				
+			if(null != topNode.record){
+				i = subtreeMaxRecord(topNode.right);				
 			}
-			else{
-				max = i;
-			}
+			return i;
 		}
-		return max;
 	}
-	public int minRecord(){
+	public String minRecord(){
 		return subtreeMinRecord(root);
 	}
-	private int subtreeMinRecord(Node topNode){
-		int min = Integer.MAX_VALUE;
+	private String subtreeMinRecord(Node topNode){
 		if(topNode == null){
-			return 0;
+			return null;
 		}
 		else{
-			int i = subtreeMinRecord(topNode.left);
+			String i = topNode.record;
 
-			if(i > topNode.record ){
-				min = topNode.record;				
+			if(null != topNode.left){
+				i =  subtreeMinRecord(topNode.left);				
 			}
-			else{
-				min = i;
-			}
+			return i;
 		}
-		return min;
 	}
 }
